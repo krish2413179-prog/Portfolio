@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+body {
+    @apply bg-black text-white overflow-x-hidden;
+}
+
+@font-face {
+
+    font-family: 'MyWeb3Font';
+
+    src: url('./assets/heading.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+
+    font-family: 'MyName';
+
+    src: url('./assets/Bungee-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+
+    font-family: 'Mypara';
+
+    src: url('./assets/Felipa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@theme {
+
+    --font-web3: 'MyWeb3Font', sans-serif;
+    --font-name: 'MyName', sans-serif;
+    --font-para: 'Mypara', sans-serif;
+}
