@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {motion, useScroll, useTransform} from "framer-motion";
 import krish from "../assets/krish.png"
-import DotGrid from './DotGrid';
+import DotGrid from './dotgrid.jsx';
 import Shuffle from './text.jsx';
 import CertificateCard from "./Certificates.jsx";
 import Certi1 from "../assets/02d6c484-1.png"
