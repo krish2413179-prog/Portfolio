@@ -186,7 +186,22 @@ const Landing = () => {
     ];
 
     const [index, setIndex] = useState(0);
-    const lineHeight = 80;
+    const [lineHeight, setLineHeight] = useState(80);
+
+    useEffect(() => {
+        const updateLineHeight = () => {
+            if (window.innerWidth < 640) {
+                setLineHeight(44);
+            } else if (window.innerWidth < 1024) {
+                setLineHeight(60);
+            } else {
+                setLineHeight(80);
+            }
+        };
+        updateLineHeight();
+        window.addEventListener('resize', updateLineHeight);
+        return () => window.removeEventListener('resize', updateLineHeight);
+    }, []);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -196,7 +211,7 @@ const Landing = () => {
     }, [greetings.length]);
 
     return (
-        <div className=" relative flex flex-col min-h-screen w-full justify-start items-center-safe  text-white gap-10  ">
+        <div className="relative flex flex-col min-h-screen w-full justify-start items-center text-white gap-10 overflow-x-hidden">
 
             <div className="fixed inset-0 z-0 pointer-events-auto">
                 <DotGrid
@@ -211,9 +226,9 @@ const Landing = () => {
                     returnDuration={1.5}
                 />
             </div>
-            <div className="relative z-10 container mt-[10vh] px-10 flex flex-row justify-between items-start gap-2 ">
+            <div className="relative z-10 container mt-[6vh] sm:mt-[10vh] px-4 sm:px-8 md:px-10 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 md:gap-4 max-w-7xl mx-auto">
 
-                <div className="w-50 h-50 shrink-0 rounded-full overflow-hidden  mx-4 mr-2">
+                <div className="w-32 h-32 sm:w-44 sm:h-44 md:w-52 md:h-52 shrink-0 rounded-full overflow-hidden mx-auto md:mx-4">
                     <img
                         src={krish}
                         alt="Profile"
@@ -221,19 +236,19 @@ const Landing = () => {
                     />
                 </div>
                 <div
-
                     style={{ height: `${lineHeight}px` }}
+                    className="overflow-hidden"
                 >
                     <motion.div
                         animate={{ y: -(index * lineHeight)}}
                         transition={{ duration: 0.8, ease: [0.45, 0, 0.55, 1] }}
-                        className="flex flex-col items-end"
+                        className="flex flex-col items-center md:items-end"
                     >
                         {greetings.map((word, i) => (
                             <h1
                                 key={i}
                                 style={{ height: `${lineHeight}px` }}
-                                className={`text-7xl font-bold transition-opacity duration-500 flex items-center ${
+                                className={`text-3xl sm:text-5xl md:text-7xl font-bold transition-opacity duration-500 flex items-center ${
                                     i === index ? "text-yellow-600 opacity-100" : i<=index+2 ?"text-gray-600 opacity-30 ":" text-gray-600 opacity-0"
                                 }`}
                             >
@@ -243,9 +258,9 @@ const Landing = () => {
                     </motion.div>
                 </div>
 
-                <div className="flex flex-col w-screen ">
+                <div className="flex flex-col w-full max-w-full md:max-w-xl items-center md:items-start text-center md:text-left">
                     <Shuffle
-                        className=" font-name whitespace-nowrap mt-2"
+                        className="font-name whitespace-normal sm:whitespace-nowrap mt-2"
                         text=", I am Krish Sharma"
                         shuffleDirection="right"
                         duration={0.35}
@@ -262,7 +277,7 @@ const Landing = () => {
                     />
                     <br/>
 
-                <h2 className="text-4xl  text-center font-para text-yellow-100 mx-4 ">
+                <h2 className="text-base sm:text-2xl md:text-4xl text-center md:text-left font-para text-yellow-100 mx-2 sm:mx-4">
                       I focus on Ethereum and modern frontend design. I build decentralized apps and smooth experiences on different platforms using React. I enjoy making secure smart contracts and great user interfaces.
                 </h2>
             </div>
@@ -271,24 +286,23 @@ const Landing = () => {
 
 
             {/* Upper part ended */}
-            <div className=" flex flex-col gap-8   ">
-                <div className="flex-row flex justify-between  w-screen  gap-20 px-32 ">
+            <div className="flex flex-col gap-8 w-full items-center">
+                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center w-full max-w-5xl gap-4 sm:gap-6 md:gap-10 px-4 sm:px-10">
                     <NeuFollowButton2 />
-                    <br/>
                     <NeuFollowButton data="GitHub"
                                      link="https://github.com/krish2413179-prog"
-                    src = "https://img.icons8.com/?size=100&id=118557&format=png&color=000000"
+                                     src="https://img.icons8.com/?size=100&id=118557&format=png&color=000000"
                     >
                     </NeuFollowButton>
 
                     <NeuFollowButton data="LinkedIn"
                                      link="https://www.linkedin.com/in/krish-sharma-t/"
-                                     src = "https://img.icons8.com/?size=100&id=64154&format=png&color=000000">
+                                     src="https://img.icons8.com/?size=100&id=64154&format=png&color=000000">
                     </NeuFollowButton>
                 </div>
                 <br/>
-                <div className="pointer-events-none absolute left-0 z-10 h-full w-32    bg-gradient-to-r from-black to-transparent " />
-                <div className="pointer-events-none absolute right-0 z-10 h-full w-32 bg-gradient-to-l from-black to-transparent" />
+                <div className="pointer-events-none absolute left-0 z-10 h-full w-6 sm:w-16 md:w-32 bg-gradient-to-r from-black to-transparent" />
+                <div className="pointer-events-none absolute right-0 z-10 h-full w-6 sm:w-16 md:w-32 bg-gradient-to-l from-black to-transparent" />
 
                 <motion.div
                     className="flex w-max cursor-grab active:cursor-grabbing"
@@ -300,18 +314,18 @@ const Landing = () => {
                     }}
                 >
                     {[...Array(2)].map((_,i)=>(
-                        <div key={i} className="flex gap-6 pr-6">
+                        <div key={i} className="flex gap-4 sm:gap-6 pr-4 sm:pr-6">
                             {techStack.map((tech)=>(
                                 <div key={tech.id}
-                                     className="group relative flex h-80 w-72 shrink-0 flex-col justify-between rounded-2xl border border-white/10 bg-zinc-950/80 p-6 transition-all hover:-translate-y-2 hover:border-purple-500/50 hover:bg-zinc-900 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+                                     className="group relative flex h-72 sm:h-80 w-60 sm:w-72 shrink-0 flex-col justify-between rounded-2xl border border-white/10 bg-zinc-950/80 p-5 sm:p-6 transition-all hover:-translate-y-2 hover:border-purple-500/50 hover:bg-zinc-900 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]">
                                     <div>
-                                        <div className="mb-4 h-12 w-12 rounded-full bg-white/5 transition-colors group-hover:bg-purple-500/20 overflow-hidden" >
+                                        <div className="mb-4 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/5 transition-colors group-hover:bg-purple-500/20 overflow-hidden" >
                                             <img src={tech.image} alt="logo"/>
                                         </div>
-                                        <h3 className="text-xl font-bold text-gray-400 transition-colors group-hover:text-white">
+                                        <h3 className="text-lg sm:text-xl font-bold text-gray-400 transition-colors group-hover:text-white">
                                             {tech.name}
                                         </h3>
-                                        <p className="mt-2 text-sm text-gray-500">
+                                        <p className="mt-2 text-xs sm:text-sm text-gray-500">
                                             {tech.desc}
                                         </p>
                                     </div>
@@ -334,59 +348,55 @@ const Landing = () => {
                 ref={ref}
                 style={{ clipPath }}
 
-                className=" relative flex flex-row justify-center text-white text-center mt-[20vh]   w-screen"
+                className="relative flex flex-row justify-center text-white text-center mt-[12vh] md:mt-[20vh] w-full max-w-full"
             >
 
-                <div ref={marqueeRef} className="relative h-[300vh] w-full">
+                <div ref={marqueeRef} className="relative h-[250vh] sm:h-[300vh] w-full">
 
-                <div  className=" fixed top-0 flex-col h-screen  w-full items-start  overflow-hidden ">
+                <div className="fixed top-0 flex-col h-screen w-full items-start overflow-hidden">
 
-                    <h1 className=" font-web3   text-7xl text-gold-400 text-center mt-[10vh] ">Projects</h1>
+                    <h1 className="font-web3 text-4xl sm:text-6xl md:text-7xl text-gold-400 text-center mt-[8vh] md:mt-[10vh] w-full">Projects</h1>
 
                     <motion.div
-                        className="flex w-max mt-[25vh]"
+                        className="flex w-max mt-[15vh] sm:mt-[20vh] md:mt-[25vh]"
 
                         style={{ x: translateX }}
 
                     >
                         {[...Array(2)].map((_,i)=>(
-                            <div key={i} className=" z-20 flex gap-6 pr-6">
+                            <div key={i} className="z-20 flex gap-4 sm:gap-6 pr-4 sm:pr-6">
                                 {projects.map((project) => (
                                     <div
                                         key={project.id}
-                                        className="group relative flex h-[350px] w-[420px] shrink-0 flex-col justify-between rounded-3xl border border-white/10 bg-zinc-950/80 p-8 transition-all duration-500 hover:-translate-y-2  hover:bg-zinc-900/90 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] backdrop-blur-md overflow-hidden"
+                                        className="group relative flex h-[320px] sm:h-[350px] w-[290px] sm:w-[380px] md:w-[420px] shrink-0 flex-col justify-between rounded-3xl border border-white/10 bg-zinc-950/80 p-5 sm:p-8 transition-all duration-500 hover:-translate-y-2 hover:bg-zinc-900/90 hover:shadow-[0_0_40px_rgba(168,85,247,0.15)] backdrop-blur-md overflow-hidden"
                                     >
 
-                                        <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full  blur-3xl transition-all duration-700 group-hover:"></div>
+                                        <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl transition-all duration-700"></div>
 
                                         <div className="relative z-10 flex flex-col h-full">
 
                                             <div className="flex items-start justify-between w-full">
 
-
-
-
-
                                             </div>
 
 
-                                            <div className="mt-6 flex flex-col gap-3 flex-grow">
-                                                <h3 className="text-3xl font-bold text-white tracking-wide transition-colors duration-300 group-hover:">
+                                            <div className="mt-2 sm:mt-6 flex flex-col gap-2 sm:gap-3 flex-grow">
+                                                <h3 className="text-xl sm:text-3xl font-bold text-white tracking-wide transition-colors duration-300">
                                                     {project.name}
                                                 </h3>
-                                                <p className="text-base text-gray-400 leading-relaxed line-clamp-3">
+                                                <p className="text-xs sm:text-base text-gray-400 leading-relaxed line-clamp-3">
                                                     {project.desc}
                                                 </p>
                                             </div>
 
 
-                                            <div className="mt-auto flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors duration-300 group-hover:text-white pt-4 border-t border-white/10">
+                                            <div className="mt-auto flex items-center gap-2 text-xs sm:text-sm font-bold text-gray-500 transition-colors duration-300 group-hover:text-white pt-4 border-t border-white/10">
                                                 <a
                                                     href={project.link}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="z-10 group flex w-fit items-center gap-6 border-2 border-black bg-white px-8 py-4 transition-all duration-300 ease-out shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-2 hover:translate-y-2 active:scale-95 cursor-pointer">
-                                                    <span className="font-bold uppercase tracking-widest text-black">   Link To Github
+                                                    className="z-10 group flex w-fit items-center gap-3 sm:gap-6 border-2 border-black bg-white px-4 py-2 sm:px-8 sm:py-4 transition-all duration-300 ease-out shadow-[-4px_4px_0px_0px_rgba(0,0,0,1)] sm:shadow-[-8px_8px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:-translate-x-1 hover:translate-y-1 active:scale-95 cursor-pointer">
+                                                    <span className="font-bold uppercase tracking-wider sm:tracking-widest text-black text-xs sm:text-sm">Link To Github
     </span>
                                                 </a>
 
@@ -422,10 +432,10 @@ const Landing = () => {
 
 
 
-<div className="  z-10 h-screen w-full">
-    <h1 className="  font-web3 text-7xl text-white text-center mt-[10vh]">Certificates</h1>
+<div className="z-10 min-h-screen w-full flex flex-col items-center px-4 py-16">
+    <h1 className="font-web3 text-4xl sm:text-6xl md:text-7xl text-white text-center mt-[5vh] md:mt-[10vh]">Certificates</h1>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-[20vh] mx-14">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-10 md:mt-20 max-w-6xl w-full justify-items-center">
 
         {myCertificates.map((cert) => (
             <CertificateCard
@@ -439,12 +449,12 @@ const Landing = () => {
 </div>
 
 
-            <div className="z-10 flex flex-col items-center w-full mt-32 mb-32 px-10">
-                <h1 className="font-web3 text-7xl text-purple-400 text-center mb-16">
+            <div className="z-10 flex flex-col items-center w-full mt-16 sm:mt-32 mb-16 sm:mb-32 px-4 sm:px-10">
+                <h1 className="font-web3 text-4xl sm:text-6xl md:text-7xl text-purple-400 text-center mb-8 sm:mb-16">
                     Let's Connect
                 </h1>
 
-                <form className="w-full max-w-2xl flex flex-col gap-6 bg-zinc-950/80 border border-white/10 p-10 rounded-3xl shadow-[0_0_30px_rgba(168,85,247,0.05)] backdrop-blur-sm">
+                <form className="w-full max-w-2xl flex flex-col gap-4 sm:gap-6 bg-zinc-950/80 border border-white/10 p-5 sm:p-10 rounded-3xl shadow-[0_0_30px_rgba(168,85,247,0.05)] backdrop-blur-sm">
                <NeuButton data ="Connect on Telegram"
                src="https://img.icons8.com/?size=100&id=k4jADXhS5U1t&format=png&color=000000"
                link="https://t.me/Krish_Sharma_dev">
